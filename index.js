@@ -28,7 +28,7 @@ var connectWithRetry = function () {
       useNewUrlParser: true
     })
     .then(() => console.log('MongoDB connected'))
-    .catch(err => connectWithRetry())
+    .catch(err => console.log(err))
 };
 
 connectWithRetry();
