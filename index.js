@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({
 //   .then(() => console.log('MongoDB connected'))
 //   .catch(err => console.log('!!!!!!!' + err))
 
+// mkmultimedia_6VOLTA
 
 var connectWithRetry = function () {
   return mongoose.connect(mongoUrl, function (err) {
@@ -30,7 +31,8 @@ var connectWithRetry = function () {
     }
   });
 };
-connectWithRetry();
+
+setTimeout(connectWithRetry(), 5000);
 
 
 const Item = require('./models/Item');
