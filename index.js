@@ -24,12 +24,14 @@ app.use(bodyParser.urlencoded({
 // mkmultimedia_6VOLTA
 
 var connectWithRetry = function () {
-  return mongoose.connect('mongodb://localhost:27017/docker-node-mongo', {
+  return mongoose.connect('mongodb://mongo:27017/docker-node-mongo', {
       useNewUrlParser: true
     })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err))
 };
+
+connectWithRetry();
 
 
 
@@ -37,6 +39,7 @@ const Item = require('./models/Item');
 
 app.get('/', (req, res) => {
   // console.log('!!!!!connection on root detected!!!!!');
+
 
   Item.find()
     .then(items => {
@@ -61,6 +64,4 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 
-
-  connectWithRetry();
 })
