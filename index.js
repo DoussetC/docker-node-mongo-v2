@@ -31,7 +31,7 @@ var connectWithRetry = function () {
     .catch(err => connectWithRetry())
 };
 
-await new Promise(done => setTimeout(done(connectWithRetry()), 5000));
+connectWithRetry();
 
 
 
