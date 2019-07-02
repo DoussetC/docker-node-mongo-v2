@@ -32,7 +32,7 @@ var connectWithRetry = function () {
   });
 };
 
-await new Promise(done => setTimeout(connectWithRetry(), 5000));
+await new Promise(done => setTimeout(done(connectWithRetry()), 5000));
 
 
 
