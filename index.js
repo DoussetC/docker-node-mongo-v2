@@ -31,8 +31,6 @@ var connectWithRetry = function () {
     .catch(err => console.log(err))
 };
 
-connectWithRetry();
-
 
 
 const Item = require('./models/Item');
@@ -63,4 +61,6 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 
+
+  connectWithRetry();
 })
