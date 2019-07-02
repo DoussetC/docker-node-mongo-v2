@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
+const mongoUrl = "mongodb://mongo:27017/docker-node-mongo";
+
+
 
 app.set('view engine', 'ejs');
 
@@ -10,27 +13,25 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-// Connect to MongoDB
-mongoose.connect('mongodb://mongo:27017/docker-node-mongo', {
-    // mongoose.connect('mongodb://localhost:27017/docker-node-mongo', {
-    promiseLibrary: bluebird,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    // Automatically try to reconnect when it loses connection to MongoDB
-    autoReconnect: true,
-    // Never stop trying to reconnect
-    reconnectTries: Number.MAX_VALUE,
-    // Reconnect every 500ms
-    reconnectInterval: 500,
-    // Maintain up to 10 socket connections. If not connected,
-    // return errors immediately rather than waiting for reconnect
-    poolSize: 10,
-    // Give up initial connection after 10 seconds
-    connectTimeoutMS: 10000,
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('!!!!!!!' + err))
+// // Connect to MongoDB
+// mongoose.connect('mongodb://mongo:27017/docker-node-mongo', {
+//     // mongoose.connect('mongodb://localhost:27017/docker-node-mongo', {
+//     useNewUrlParser: true
+//   })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => console.log('!!!!!!!' + err))
+
+
+var connectWithRetry = function () {
+  return mongoose.connect(mongoUrl, function (err) {
+    if (err) {
+      console.error('Failed to connect to mongo on startup - retrying in 5 sec', err);
+      setTimeout(connectWithRetry, 5000);
+    }
+  });
+};
+connectWithRetry();
+
 
 const Item = require('./models/Item');
 
