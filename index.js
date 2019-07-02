@@ -13,7 +13,21 @@ app.use(bodyParser.urlencoded({
 // Connect to MongoDB
 mongoose.connect('mongodb://mongo:27017/docker-node-mongo', {
     // mongoose.connect('mongodb://localhost:27017/docker-node-mongo', {
-    useNewUrlParser: true
+    promiseLibrary: bluebird,
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    // Automatically try to reconnect when it loses connection to MongoDB
+    autoReconnect: true,
+    // Never stop trying to reconnect
+    reconnectTries: Number.MAX_VALUE,
+    // Reconnect every 500ms
+    reconnectInterval: 500,
+    // Maintain up to 10 socket connections. If not connected,
+    // return errors immediately rather than waiting for reconnect
+    poolSize: 10,
+    // Give up initial connection after 10 seconds
+    connectTimeoutMS: 10000,
   })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log('!!!!!!!' + err))
