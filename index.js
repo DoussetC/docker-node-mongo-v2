@@ -32,7 +32,8 @@ var connectWithRetry = function () {
   });
 };
 
-setTimeout(connectWithRetry(), 5000);
+await new Promise(done => setTimeout(connectWithRetry(), 5000));
+
 
 
 const Item = require('./models/Item');
